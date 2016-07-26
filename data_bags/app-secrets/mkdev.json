@@ -1,0 +1,21 @@
+{
+  "id": "mkdev",
+  "name": {
+    "encrypted_data": "HdXGo7KB2iE9+qdz8IjE41ew/N6/fp90FJo7WsFgH7k=\n",
+    "iv": "BwTEgtdtBl8TumMcCoBRIQ==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "deploy_key": {
+    "encrypted_data": "4eLFtAT15ccF9tYXuGAYIuis5hpawLZa/6VqcHAsONHPbMSKfVogG1vTw52z\npEZI\n",
+    "iv": "+g0d/4eSHIeMIQI6eAVWkw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "env_vars": {
+    "encrypted_data": "DiRrIKHvKzDOeYoRf3vlxfnYvJy/OTgMCo9bquS4ctY=\n",
+    "iv": "12//SSSs2SYixXDCJMWh/w==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
+}

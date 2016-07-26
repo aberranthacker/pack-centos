@@ -1,0 +1,15 @@
+{
+    "name": "dev",
+    "description": "Recipes for develpment machines",
+    "json_class": "Chef::Role",
+    "chef_type": "role",
+    "run_list": [
+        "recipe[app-rails::base]"
+    ],
+
+    "default_attributes": {
+        "app-rails": {
+            "name": "mkdev"
+        }
+    }
+}

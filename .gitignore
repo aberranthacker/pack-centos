@@ -2,7 +2,8 @@ app-rails.cookbook
 berks-cookbooks
 packer_cache
 output
+*.box
 debug_build.sh
-ovfvm_template.json
+ovfvb_template.json
 vbcentos7_template.json
 

@@ -1,1 +1,70 @@
-/home/random/projects/cook_centos/centos7_template.json
+{
+    "builders":
+    [
+        {
+            "type": "qemu",
+            "iso_url": "http://mirror.yandex.ru/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
+            "iso_checksum": "88c0437f0a14c6e2c94426df9d43cd67",
+            "iso_checksum_type": "md5",
+            "output_directory": "output",
+            "shutdown_command": "sudo shutdown -P now",
+            "disk_size": 10000,
+            "headless": true,
+            "http_directory": "httpdir",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_wait_timeout": "30m",
+            "boot_wait": "5s",
+            "boot_command": [
+                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+            ]
+        },
+
+        {
+            "type": "virtualbox-iso",
+            "iso_url": "http://mirror.yandex.ru/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1511.iso",
+            "iso_checksum": "88c0437f0a14c6e2c94426df9d43cd67",
+            "iso_checksum_type": "md5",
+            "guest_os_type": "RedHat_64",
+            "output_directory": "output",
+            "shutdown_command": "sudo shutdown -P now",
+            "disk_size": 10000,
+            "headless": true,
+            "http_directory": "httpdir",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_wait_timeout": "30m",
+            "vboxmanage": [ ["modifyvm", "{{.Name}}", "--cpus", "2"] ],
+            "boot_wait": "5s",
+            "boot_command": [
+                "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+            ]
+        }
+    ],
+
+  "variables": {
+    "chef_dir": "/tmp/packer-chef-client"
+  },
+
+  "provisioners": [
+    { "type": "shell", "inline": [ "mkdir -p {{user `chef_dir`}}" ] },
+    { "type": "file", "source": "{{pwd}}/berks-cookbooks", "destination": "{{user `chef_dir`}}/cookbooks" },
+    { "type": "file", "source": "{{pwd}}/roles", "destination": "{{user `chef_dir`}}" },
+    { "type": "file", "source": "{{pwd}}/data_bags", "destination": "{{user `chef_dir`}}" },
+    {
+      "type": "chef-client",
+      "execute_command": "cd {{user `chef_dir`}} && sudo chef-client --local-mode --no-color --config {{.ConfigPath}} --json-attributes {{.JsonPath}}",
+      "encrypted_data_bag_secret_path": "{{pwd}}/encrypted_data_bag_secret",
+      "server_url": "http://localhost:8889",
+      "skip_clean_node": true,
+      "skip_clean_client": true,
+      "run_list": [ "role[dev]" ]
+    }
+  ],
+
+  "post-processors": [
+      {
+          "type": "vagrant"
+      }
+  ]
+}
