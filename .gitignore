@@ -1,0 +1,8 @@
+app-rails.cookbook
+berks-cookbooks
+packer_cache
+output
+debug_build.sh
+ovfvm_template.json
+vbcentos7_template.json
+
