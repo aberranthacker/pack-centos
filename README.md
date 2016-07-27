@@ -5,12 +5,16 @@
 Для сборки необходимы: Packer, ChefDK, VirtualBox и QEmu
 
 ## Использование
-```bash
-$ git clone https://github.com/olegtc/pack-centos.git
-$ cd pack-centos
-$ ./build.sh
-```
-runlist задается в `centos7-template.json`, по умолчанию
+В репозитории два шаблона:
+- `base.json` для создания образа VM с установленной CentOS 7.2
+- `app.json` использует артифакты создынные с помощью предыдущего шаблона, настраивает VM с помощью Chef и создает Vagrant коробку.
+
+Также в репозитории два скрипта:
+- `build-base.sh` запускает Packer с шаблоном `base.json`
+- `build-app.sh` загружает app-rails.cookbook, запускает Berk чтоб подтянуть зависимости и запускает Packer с шаблоном `app.json`
+
+
+runlist задается в `app.json`, по умолчанию
 ```json
   "run_list": [ "role[dev]" ]
 ```
