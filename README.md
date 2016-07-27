@@ -14,6 +14,6 @@ runlist задается в `centos7-template.json`, по умолчанию
 ```json
   "run_list": [ "role[dev]" ]
 ```
-где приложению присваивается имя `mkdev` и выполняется `recipe[app-rails::base]`
+где задается атрибут `node['app-rails']['name'] = 'mkdev'` и выполняется `recipe[app-rails::base]`
 
 После успешного завершения на выходе получам две коробки `packer_qemu_libvirt.box` и `packer_virtualbox-iso_virtualbox.box`
