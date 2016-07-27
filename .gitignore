@@ -1,7 +1,8 @@
 app-rails.cookbook
 berks-cookbooks
 packer_cache
-output
+output*
+image*
 *.box
 debug_build.sh
 ovfvb_template.json

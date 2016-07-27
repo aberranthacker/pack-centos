@@ -1,0 +1,52 @@
+{
+    "builders":
+    [
+        {
+            "type": "qemu",
+            "disk_image": true,
+            "iso_url": "image-qemu/packer-qemu",
+            "iso_checksum": "",
+            "iso_checksum_type": "none",
+            "shutdown_command": "sudo shutdown -P now",
+            "headless": true,
+            "http_directory": "httpdir",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant"
+        },
+
+        {
+            "type": "virtualbox-ovf",
+            "source_path": "image-virtualbox-iso/packer-virtualbox-iso.ovf",
+            "shutdown_command": "sudo shutdown -P now",
+            "headless": true,
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant"
+        }
+    ],
+
+  "variables": {
+    "chef_dir": "/tmp/packer-chef-client"
+  },
+
+  "provisioners": [
+    { "type": "shell", "inline": [ "mkdir -p {{user `chef_dir`}}" ] },
+    { "type": "file", "source": "{{pwd}}/berks-cookbooks", "destination": "{{user `chef_dir`}}/cookbooks" },
+    { "type": "file", "source": "{{pwd}}/roles", "destination": "{{user `chef_dir`}}" },
+    { "type": "file", "source": "{{pwd}}/data_bags", "destination": "{{user `chef_dir`}}" },
+    {
+      "type": "chef-client",
+      "execute_command": "cd {{user `chef_dir`}} && sudo chef-client --local-mode --no-color --config {{.ConfigPath}} --json-attributes {{.JsonPath}}",
+      "encrypted_data_bag_secret_path": "{{pwd}}/encrypted_data_bag_secret",
+      "server_url": "http://localhost:8889",
+      "skip_clean_node": true,
+      "skip_clean_client": true,
+      "run_list": [ "role[dev]" ]
+    }
+  ],
+
+  "post-processors": [
+      {
+          "type": "vagrant"
+      }
+  ]
+}
