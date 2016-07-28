@@ -1,2 +1,2 @@
 #!/bin/sh
-~/bin/packer build -parallel=false base.json
+packer build -parallel=false base.json
